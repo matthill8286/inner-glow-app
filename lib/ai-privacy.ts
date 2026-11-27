@@ -20,7 +20,7 @@ export async function requestAIPermission(userId: string, force = false): Promis
   const task = new Promise<boolean>((resolve) => {
     showAlert(
       'Allow AI data processing?',
-      'AI features send the relevant chat messages, mood or sleep entries, wellness context, or voice recording you select through Supabase to OpenAI. This information may contain personal health details. AI companions provide general wellness support and are not medical professionals. You can decline and continue using the other tools, or withdraw permission in Profile → AI Data Permission.',
+      'AI features send the relevant chat messages, mood or sleep entries and wellness context through Supabase to Anthropic, which provides the Claude AI model. A voice recording you choose to transcribe is sent to OpenAI. This information may contain personal health details. AI companions provide general wellness support and are not medical professionals. You can decline and continue using the other tools, or withdraw permission in Profile → AI Data Permission.',
       [
         {
           text: 'Decline',
