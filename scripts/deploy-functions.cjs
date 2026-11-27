@@ -1,20 +1,26 @@
 const { spawnSync } = require('node:child_process');
 const fs = require('node:fs');
-const ref = 'ufbhteewrbcvcqxdzsui';
+const ref = 'oijacqlseznugpixbgfj';
 if (fs.readFileSync('supabase/.temp/project-ref', 'utf8').trim() !== ref) {
   throw new Error('Linked Supabase project does not match Inner Glow');
 }
 for (const name of [
   'chat',
-  'mood-insights',
-  'sleep-insights',
-  'generate-suggestions',
-  'transcribe-audio',
-  'revenuecat-webhook',
-  'delete-account',
+  'chat-summary',
+  'client-diagnostics',
   'community-publish',
   'contact-support',
-  'client-diagnostics',
+  'delete-account',
+  'generate-suggestions',
+  'journal-reflection',
+  'mood-insights',
+  'recovery-codes',
+  'revenuecat-webhook',
+  'sleep-insights',
+  'stripe-checkout',
+  'stripe-webhook',
+  'subscription-management',
+  'transcribe-audio',
   'weekly-reflection',
 ]) {
   // Authenticated functions validate the user's JWT in code. The public support

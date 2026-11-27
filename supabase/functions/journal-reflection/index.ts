@@ -1,6 +1,6 @@
 import { aiAccess } from '../_shared/auth.ts';
+import { completeJson } from '../_shared/claude.ts';
 
-const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -21,25 +21,7 @@ const PRACTICES: Record<string, string> = {
 };
 const MOOD_SCORES = [1, 2, 3, 4, 5];
 
-async function complete(system: string, user: string, maxTokens: number) {
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      temperature: 0.4,
-      max_tokens: maxTokens,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: system },
-        { role: 'user', content: user },
-      ],
-    }),
-  });
-  if (!response.ok)
-    throw new Error(`OpenAI API error: ${response.status} - ${await response.text()}`);
-  return JSON.parse((await response.json()).choices?.[0]?.message?.content ?? '{}');
-}
+const complete = (system: string, user: string) => completeJson({ system, messages: user });
 
 const text = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 
@@ -66,7 +48,6 @@ Deno.serve(async (req: Request) => {
     );
 
   try {
-    if (!OPENAI_API_KEY) throw new Error('OPENAI_API_KEY not configured');
     const body = await req.json();
     const language = body.locale === 'el' ? 'Greek' : 'English';
 
@@ -80,7 +61,6 @@ Deno.serve(async (req: Request) => {
 - "moods": up to three feeling words in ${language}, one word each and at most 12 characters, such as "Anxious" or "Lighter", each as {"word": string, "score": 1-5} where 1 is tense and 5 is great.
 Do not diagnose. Use only what the transcript says.`,
         transcript,
-        250,
       );
       const highlights = (Array.isArray(raw.highlights) ? raw.highlights : [])
         .map((h: unknown) => text(h, 80))
@@ -120,7 +100,6 @@ ${Object.entries(PRACTICES)
   .join('\n')}
 Do not diagnose or give medical advice. Do not invent details. If they mention wanting to harm themselves, say kindly that they deserve support right now and suggest reaching out to someone they trust or a local emergency line.`,
       `Title: ${text(entry.title, 200)}\nMood: ${text(entry.mood, 40)}\nTags: ${(entry.tags ?? []).join(', ')}\n\n${text(entry.body, 6000)}`,
-      300,
     );
     const reflection = text(raw.reflection, 600);
     if (!reflection) throw new Error('Empty reflection');

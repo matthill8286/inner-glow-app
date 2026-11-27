@@ -1,4 +1,5 @@
 import { moderateCommunityText } from '../_shared/community-moderation.ts';
+import { classify } from '../_shared/claude.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.99.1';
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -34,9 +35,7 @@ Deno.serve(async (req: Request) => {
     ) {
       return Response.json({ error: 'Content is empty or too long' }, { status: 400, headers });
     }
-    const apiKey = Deno.env.get('OPENAI_API_KEY');
-    if (!apiKey) throw new Error('Moderation is not configured');
-    if (await moderateCommunityText(content, apiKey)) {
+    if (await moderateCommunityText(content, classify)) {
       return Response.json(
         { error: 'This content cannot be published. Please review the Community Guidelines.' },
         { status: 422, headers },

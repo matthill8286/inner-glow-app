@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
-const expectedRef = 'ufbhteewrbcvcqxdzsui';
+const expectedRef = 'oijacqlseznugpixbgfj';
 const ref = fs.readFileSync('supabase/.temp/project-ref', 'utf8').trim();
 if (ref !== expectedRef) throw new Error('Linked Supabase project does not match Inner Glow');
 // This checkout lacks the remote baseline migrations. Do not replay the original
