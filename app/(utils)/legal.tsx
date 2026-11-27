@@ -18,7 +18,7 @@ const policies = {
     ],
     [
       'AI processing',
-      'With your permission, the information required for an AI feature is sent through our Supabase backend to OpenAI. This can include conversation messages, mood and sleep entries, wellness context, or a voice recording you choose to transcribe. You can decline or withdraw permission in Profile. AI features will then stop sending this information.',
+      'With your permission, the information required for an AI feature is sent through our Supabase backend to Anthropic, which provides the Claude AI model. This can include conversation messages, mood and sleep entries, and wellness context. A voice recording you choose to transcribe is sent to OpenAI. You can decline or withdraw permission in Profile. AI features will then stop sending this information.',
     ],
     [
       'Payments',

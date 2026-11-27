@@ -62,12 +62,12 @@ const WEAKNESS_TO_CATEGORIES: Record<string, string[]> = {
 };
 
 /* ------------------------------------------------------------------ */
-/*  AI-powered suggestion generation (Edge Function → OpenAI)          */
+/*  AI-powered suggestion generation (Edge Function → Claude)          */
 /* ------------------------------------------------------------------ */
 
 /**
  * Calls the `generate-suggestions` Supabase Edge Function which uses
- * OpenAI to create personalised, contextual activity suggestions based
+ * Claude to create personalised, contextual activity suggestions based
  * on the user's Freud Score profile.
  *
  * Returns null if the edge function fails (caller should fall back to

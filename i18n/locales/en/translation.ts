@@ -3934,7 +3934,7 @@ export default {
       privacy: {
         question: 'Who can see my journal and chats?',
         answer:
-          'Your journal and Glow AI chats are private to your account. AI features send relevant content to OpenAI only with your permission, which you can change in Settings › AI data permission. We never sell your data or use it for ads, and you can download or delete it any time in Settings.',
+          'Your journal and Glow AI chats are private to your account. AI features send relevant content to Anthropic, and voice recordings you transcribe to OpenAI, only with your permission, which you can change in Settings › AI data permission. We never sell your data or use it for ads, and you can download or delete it any time in Settings.',
       },
       cancel: {
         question: 'How do I cancel Pro?',
