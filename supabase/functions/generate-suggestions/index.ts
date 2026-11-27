@@ -1,4 +1,5 @@
 import { authenticationError } from '../_shared/auth.ts';
+import { completeJson } from '../_shared/claude.ts';
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
@@ -30,13 +31,6 @@ serve(async (req: Request) => {
 
   try {
     // @ts-ignore
-    const openaiKey = Deno.env.get('OPENAI_API_KEY');
-    if (!openaiKey) {
-      return new Response(JSON.stringify({ error: 'OPENAI_API_KEY not configured' }), {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
 
     const body = await req.json();
     const {
@@ -84,44 +78,7 @@ Return a JSON object with this exact structure:
   ]
 }`;
 
-    const chatRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${openaiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-        temperature: 0.8,
-        max_tokens: 2000,
-        response_format: { type: 'json_object' },
-      }),
-    });
-
-    if (!chatRes.ok) {
-      const errText = await chatRes.text();
-      console.error('[generate-suggestions] OpenAI error:', errText);
-      return new Response(JSON.stringify({ error: `OpenAI returned ${chatRes.status}` }), {
-        status: 502,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    const chatData = await chatRes.json();
-    const content = chatData.choices?.[0]?.message?.content;
-
-    if (!content) {
-      return new Response(JSON.stringify({ error: 'Empty response from OpenAI' }), {
-        status: 502,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    const parsed = JSON.parse(content);
+    const parsed = await completeJson({ system: systemPrompt, messages: userPrompt });
 
     return new Response(JSON.stringify({ suggestions: parsed.suggestions ?? [] }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
