@@ -1,3 +1,36 @@
+## Latest submission: 27 November 2026, Build 39
+
+Build 39 (binary 1.0.0) replaces Build 38 for iOS version 1.1. It answers the rejection of 25 November 2026 under Guideline 2.1(a), where the reviewer received an error message on login on an iPad Air 11-inch (M3).
+
+Cause: the app's hosted backend project had been deleted, so every sign-in request failed. It was not an iPad layout or device fault.
+
+What changed:
+
+- The backend runs on a new Supabase project, `oijacqlseznugpixbgfj`. Build 39 is built against it.
+- The App Review account was recreated with the same credentials that are in App Review Information. Its sign-in was verified against the production backend with the key that Build 39 ships. It is a new account, so it starts at onboarding and has no subscription, which leaves the full purchase flow available.
+- Sign-up codes are sent from info@weareimpakt.com through Brevo. A test sign-up delivered a six-digit code.
+- The RevenueCat webhook points at the new backend. A RevenueCat test event returned 200.
+- Glow AI runs on the Claude API. Chat, the self-harm check, the chat summary and community screening passed live requests.
+
+Not yet done when this was written: the account holder's sign-in check of Build 39 on an iPad through TestFlight.
+
+### Reply to App Review
+
+Hello App Review Team,
+
+Thank you for the report on Build 38. The login error was caused by an outage of our backend service, which made every sign-in request fail on all devices. It was not specific to iPad.
+
+We have restored the service and submitted Build 39, which connects to it. We verified sign-in with the demo account from App Review Information against the production service. The demo account credentials are unchanged.
+
+The demo account is a new account, so it opens at onboarding. It has no active subscription, so Premium Monthly and Premium Yearly can be reviewed from the Premium screen.
+
+Please let us know if you see anything further.
+
+Regards,
+Matthew Hill
+
+---
+
 ## Latest submission — 3 November 2026, Build 27
 
 Submitted four items together for App Review: iOS version 1.1, binary 1.0.0 (27), Premium Monthly, Premium Yearly, and the Premium subscription group. Apple confirmed “4 Items Submitted”.
