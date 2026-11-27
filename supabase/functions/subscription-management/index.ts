@@ -42,6 +42,7 @@ Deno.serve(async (req: Request) => {
       [
         'innerglowapp.com',
         'www.innerglowapp.com',
+        'innerglow.weareimpakt.com',
         'inner-glow-wellness.bushy-lynx-1749.chatgpt.site',
       ].includes(redirect.hostname);
     if (!approved || !(redirect.protocol === 'https:' || (local && redirect.protocol === 'http:')))

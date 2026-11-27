@@ -22,7 +22,7 @@ export async function openSubscriptionManagement(stripeCustomer = false) {
       returnUrl:
         Platform.OS === 'web'
           ? new URL('/profile', window.location.origin).href
-          : 'https://inner-glow-wellness.bushy-lynx-1749.chatgpt.site/support/',
+          : 'https://innerglow.weareimpakt.com/support/',
     },
   });
   if (error) throw await functionError(error);
